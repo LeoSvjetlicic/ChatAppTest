@@ -1,5 +1,4 @@
 import io.appium.java_client.android.AndroidDriver;
-import org.graalvm.compiler.hotspot.replacements.Log;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -9,11 +8,9 @@ import org.testng.annotations.Test;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 class Tests {
-    // The tests are done with existing users because the app is connected to Firebase firestore
     AndroidDriver driver;
     WebElement usernameField;
     WebElement passwordField;
@@ -34,8 +31,8 @@ class Tests {
         loginButton = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/android.widget.Button"));
     }
 
-    //    This is one test for the whole navigation in the app,
-    //    because I don't want to spam the firebase with login requests
+    //    This is one test for the whole app,
+    //    so it doesn't spam the firebase with login requests
     @Test
     void appTest() {
         WebElement connectionElement;
