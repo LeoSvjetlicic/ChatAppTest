@@ -31,7 +31,7 @@ class Tests {
         loginButton = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/android.widget.Button"));
     }
 
-    //    This is one test for the whole app,
+    //    This is one test for the whole app
     //    so it doesn't spam the firebase with login requests
     @Test
     void appTest() {
@@ -48,18 +48,21 @@ class Tests {
         WebElement heart;
 
         usernameField.sendKeys("leo.svjetlicic@gmail.com");
-        passwordField.sendKeys("");
+        passwordField.sendKeys(""); // removed because the repository of the app being tested is public
         loginButton.click();
         driver.manage().timeouts().implicitlyWait(5000, TimeUnit.MILLISECONDS);
 
         showQRCodeButton = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[3]"));
         connectionElement = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View"));
 
+        // navigate to QRCode Screen
         showQRCodeButton.click();
         driver.manage().timeouts().implicitlyWait(5000, TimeUnit.MILLISECONDS);
         qrCodeText = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.widget.TextView"));
         backButton = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View/android.view.View[2]"));
         Assert.assertTrue(qrCodeText.isDisplayed());
+
+        // navigate back to connection screen
         backButton.click();
         driver.manage().timeouts().implicitlyWait(2000, TimeUnit.MILLISECONDS);
         showQRCodeButton = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[3]"));
@@ -68,27 +71,35 @@ class Tests {
 
         driver.manage().timeouts().implicitlyWait(5000, TimeUnit.MILLISECONDS);
         addConnectionButton = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[2]"));
+
+        // navigate to camera screen (activity) and automatically accept the camera use request
         addConnectionButton.click();
         driver.manage().timeouts().implicitlyWait(5000, TimeUnit.MILLISECONDS);
         camera = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.View"));
         Assert.assertTrue(camera.isDisplayed());
+
+        // navigate back to connection screen
         driver.navigate().back();
         driver.manage().timeouts().implicitlyWait(3000, TimeUnit.MILLISECONDS);
         addConnectionButton = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[2]"));
         Assert.assertTrue(addConnectionButton.isDisplayed());
 
-        connectionElement.click();
+        connectionElement.click(); // navigate to chat screen
         driver.manage().timeouts().implicitlyWait(1000, TimeUnit.MILLISECONDS);
         inChatName = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.view.View[2]/android.widget.TextView"));
         sendMessageButton = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.view.View[3]/android.view.View[2]"));
         chatTextInput = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.view.View[3]/android.widget.EditText"));
         Assert.assertTrue(inChatName.isDisplayed());
+
+        // add text and send a message that should appear on the screen
         chatTextInput.sendKeys("Kako da znam!!!");
         sendMessageButton.click();
         driver.manage().timeouts().implicitlyWait(10000, TimeUnit.MILLISECONDS);
         sentMessage = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.view.View[1]/android.view.View[1]/android.widget.TextView"));
         Assert.assertEquals(sentMessage.getText(), "Kako da znam!!!");
 
+        // simulate double click, that makes the message liked
+        // and shows a heart in the bottom right corner
         sentMessage.click();
         driver.manage().timeouts().implicitlyWait(200, TimeUnit.MILLISECONDS);
         sentMessage.click();

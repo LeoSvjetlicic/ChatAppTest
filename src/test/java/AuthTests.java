@@ -34,7 +34,7 @@ class AuthTests {
         changeScreenState = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/android.widget.TextView[3]"));
 
         usernameField.sendKeys("leo.svjetlicic@gmail.com");
-        passwordField.sendKeys("");
+        passwordField.sendKeys(""); // removed because the repository of the app being tested is public
     }
 
     @Test
